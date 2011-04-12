@@ -78,7 +78,7 @@ module Moonshine
           'rm -f wkhtmltopdf*',
           "wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-#{wkhtmltopdf_version}-static-#{arch}.tar.bz2",
           "tar xvjf wkhtmltopdf-#{wkhtmltopdf_version}-static-#{arch}.tar.bz2",
-          'mv wkhtmltopdf-amd64 /usr/local/bin/wkhtmltopdf',
+          "mv wkhtmltopdf-#{arch} /usr/local/bin/wkhtmltopdf",
           'chmod +x /usr/local/bin/wkhtmltopdf'
           ].join(' && '),
         :onlyif => [ 
