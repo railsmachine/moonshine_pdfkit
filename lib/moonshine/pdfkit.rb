@@ -70,19 +70,21 @@ module Moonshine
       # * Copies the pre-compiled binaries into place
       # * Ensures the binaries are executable
 
+      wkhtmltopdf_version = (options[:version] || configuration[:wkhtmltopdf][:version])
+
       exec 'install_wkhtmltopdf',
         :command => [ 
           'cd /tmp',
           'rm -f wkhtmltopdf*',
-          "wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-#{options[:version] || configuration[:wkhtmltopdf][:version]}-static-#{arch}.tar.bz2",
-          'tar xvjf wkhtmltopdf-0.9.9-static-amd64.tar.bz2',
+          "wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-#{wkhtmltopdf_version}-static-#{arch}.tar.bz2",
+          'tar xvjf wkhtmltopdf-#{wkhtmltopdf_version}-static-#{arch}.tar.bz2',
           'mv wkhtmltopdf-amd64 /usr/local/bin/wkhtmltopdf',
           'chmod +x /usr/local/bin/wkhtmltopdf'
           ].join(' && '),
         :onlyif => [ 
           'test ! -f /usr/local/bin/wkhtmltopdf',
           'test ! -x /usr/local/bin/wkhtmltopdf'
-          "test `wkhtmltopdf --version | grep wkhtmltopdf | cut -d ' ' -f 4` != '#{options[:version] || configuration[:wkhtmltopdf][:version]}'"
+          "test `wkhtmltopdf --version | grep wkhtmltopdf | cut -d ' ' -f 4` != '#{wkhtmltopdf_version}'"
           ].join(' && '),
         :require => wkhtmltopdf_dependencies.map { |pkg| package(pkg) }
     end
