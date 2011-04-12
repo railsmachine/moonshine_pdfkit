@@ -59,7 +59,8 @@ module Moonshine
       # * If the installed version is the version we want installed
       #
       # If neither of those conditions are met, then it wasn't installed
-      # or configured by this plugin, so we want to install.
+      # or configured by this plugin, or the version is not the right one,
+      # so we want to install it.
       #
       # The installation process:
       # 
