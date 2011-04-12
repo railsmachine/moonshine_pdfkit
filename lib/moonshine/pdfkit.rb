@@ -31,7 +31,9 @@ module Moonshine
 
       # We ensure that the [PDFKit][pk] gem is installed, and is either the version
       # the user specified, or the default version
-      gem 'pdfkit', :ensure => (options[:version] || configuration[:pdfkit][:version])
+      gem 'pdfkit',
+        :ensure => (options[:version] || configuration[:pdfkit][:version]),
+        :require => exec('install_wkhtmltopdf')
 
       # [WKHTMLToPDF][wk] is required for [PDFKit][pk] to work.
       # In order to install [WKHTMLToPDFKit][wk], we ensure we have met
