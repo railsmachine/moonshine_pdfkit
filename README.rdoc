@@ -6,7 +6,7 @@ Moonshine PDFKit provides simple installation and configuration management
 for PDFKit[https://github.com/jdpace/PDFKit].
 
 For a more in-depth look at how the plugin works, please take a look at
-[the docs](http://railsmachine.github.com/moonshine_pdfkit/).
+{the documentation}[http://railsmachine.github.com/moonshine_pdfkit/].
 
 === Instructions
 
