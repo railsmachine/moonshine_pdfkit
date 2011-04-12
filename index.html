@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html;charset=utf-8">
-  <title>init.rb</title>
+  <title>pdfkit.rb</title>
   <link rel="stylesheet" href="http://github.com/jashkenas/docco/raw/0.3.0/resources/docco.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
   <table cellspacing=0 cellpadding=0>
   <thead>
     <tr>
-      <th class=docs><h1>init.rb</h1></th>
+      <th class=docs><h1>pdfkit.rb</h1></th>
       <th class=code></th>
     </tr>
   </thead>
@@ -21,21 +21,22 @@
         <div class="pilwrap">
           <a class="pilcrow" href="#section-1">&#182;</a>
         </div>
-        <p><strong>init.rb</strong> is automatically loaded by recent versions of Moonshine</p>
+        <p><strong>Moonshine::PDFKit</strong> is a Moonshine plugin for installing and configuring
+<a href="https://github.com/jdpace/PDFKit">PDFKit</a> and <a href="http://code.google.com/p/wkhtmltopdf/">WKHTMLToPDF</a>.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre></pre></div>
       </td>
     </tr>
-    <tr id='section-2'>
+    <tr id='section-Prerequisites'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-2">&#182;</a>
+          <a class="pilcrow" href="#section-Prerequisites">&#182;</a>
         </div>
-        <p>We require <a href="/moonshine_pdfkit/lib/moonshine/pdfkit.html">Moonshine::PDFKit</a> plugin.</p>
+        <h3>Prerequisites</h3>
       </td>
       <td class=code>
-        <div class='highlight'><pre><span class="nb">require</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span><span class="si">}</span><span class="s2">/../lib/moonshine/pdfkit.rb&quot;</span></pre></div>
+        <div class='highlight'><pre></pre></div>
       </td>
     </tr>
     <tr id='section-3'>
@@ -43,11 +44,146 @@
         <div class="pilwrap">
           <a class="pilcrow" href="#section-3">&#182;</a>
         </div>
-        <p>Then, we include it.</p>
+        <p>We need to include any class level methods we need.
+We&rsquo;ll also need to configure some sane defaults for versions of the libraries.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="k">module</span> <span class="nn">Moonshine</span>
+  <span class="k">module</span> <span class="nn">PDFKit</span>
+
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">manifest</span><span class="p">)</span>
+      <span class="n">manifest</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+        <span class="kp">extend</span> <span class="no">ClassMethods</span>
+        <span class="n">configure</span> <span class="ss">:pdfkit</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:version</span> <span class="o">=&gt;</span> <span class="s1">&#39;0.5.0&#39;</span> <span class="p">}</span>
+        <span class="n">configure</span> <span class="ss">:wkhtmltopdf</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:version</span> <span class="o">=&gt;</span> <span class="s1">&#39;0.9.9&#39;</span> <span class="p">}</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">module</span> <span class="nn">ClassMethods</span>
+    <span class="k">end</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-Recipe'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-Recipe">&#182;</a>
+        </div>
+        <h3>Recipe</h3>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre></pre></div>
+      </td>
+    </tr>
+    <tr id='section-5'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-5">&#182;</a>
+        </div>
+        <p>We define the <code>:pdfkit</code> recipe which can take inline options.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">def</span> <span class="nf">pdfkit</span><span class="p">(</span><span class="n">options</span> <span class="o">=</span> <span class="p">{})</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-6'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-6">&#182;</a>
+        </div>
+        <p>We ensure that the <a href="https://github.com/jdpace/PDFKit">PDFKit</a> gem is installed, and is either the version
+the user specified, or the default version</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="n">gem</span> <span class="s1">&#39;pdfkit&#39;</span><span class="p">,</span> <span class="ss">:ensure</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:version</span><span class="o">]</span> <span class="o">||</span> <span class="n">configuration</span><span class="o">[</span><span class="ss">:pdfkit</span><span class="o">][</span><span class="ss">:version</span><span class="o">]</span><span class="p">)</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-7'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-7">&#182;</a>
+        </div>
+        <p><a href="http://code.google.com/p/wkhtmltopdf/">WKHTMLToPDF</a> is required for <a href="https://github.com/jdpace/PDFKit">PDFKit</a> to work.
+In order to install <a href="http://code.google.com/p/wkhtmltopdf/">WKHTMLToPDFKit</a>, we ensure we have met
+its dependencies.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="n">wkhtmltopdf_dependencies</span> <span class="o">=</span> <span class="sx">%w(openssl build-essential xorg libssl-dev)</span>
+      <span class="n">wkhtmltopdf_dependencies</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">pkg</span><span class="o">|</span>
+        <span class="n">package</span> <span class="n">pkg</span><span class="p">,</span> <span class="ss">:ensure</span> <span class="o">=&gt;</span> <span class="ss">:installed</span>
+      <span class="k">end</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-8'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-8">&#182;</a>
+        </div>
+        <p><a href="http://code.google.com/p/wkhtmltopdf/">WKHTMLToPDF</a> provides different binaries depending on the arch, so
+we use Facter to determine what arch the server is.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="n">arch</span> <span class="o">=</span> <span class="k">case</span> <span class="no">Facter</span><span class="o">.</span><span class="n">architecture</span>
+             <span class="k">when</span> <span class="s1">&#39;x86_64&#39;</span>
+               <span class="s1">&#39;amd64&#39;</span>
+             <span class="k">else</span>
+               <span class="s1">&#39;i386&#39;</span>
+             <span class="k">end</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-9'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-9">&#182;</a>
+        </div>
+        <p><a href="http://code.google.com/p/wkhtmltopdf/">WKHTMLToPDF</a> is provided in a precompiled tarball.</p>
+
+<p>Before attempting to install it, we first check:</p>
+
+<ul>
+<li>If it is currently installed</li>
+<li>If it is currently executable</li>
+<li>If the installed version is the version we want installed</li>
+</ul>
+
+
+<p>If neither of those conditions are met, then it wasn&rsquo;t installed
+or configured by this plugin, or the version is not the right one,
+so we want to install it.</p>
+
+<p>The installation process:</p>
+
+<ul>
+<li>Navigates to the /tmp directory</li>
+<li>Cleans up any old tarballs</li>
+<li>Downloads <a href="http://code.google.com/p/wkhtmltopdf/">WKHTMLToPDF</a></li>
+<li>Copies the pre-compiled binaries into place</li>
+<li>Ensures the binaries are executable</li>
+</ul>
+
 
       </td>
       <td class=code>
-        <div class='highlight'><pre><span class="kp">include</span> <span class="no">Moonshine</span><span class="o">::</span><span class="no">PDFKit</span></pre></div>
+        <div class='highlight'><pre>      <span class="n">wkhtmltopdf_version</span> <span class="o">=</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:version</span><span class="o">]</span> <span class="o">||</span> <span class="n">configuration</span><span class="o">[</span><span class="ss">:wkhtmltopdf</span><span class="o">][</span><span class="ss">:version</span><span class="o">]</span><span class="p">)</span>
+
+      <span class="nb">exec</span> <span class="s1">&#39;install_wkhtmltopdf&#39;</span><span class="p">,</span>
+        <span class="ss">:command</span> <span class="o">=&gt;</span> <span class="o">[</span> 
+          <span class="s1">&#39;cd /tmp&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;rm -f wkhtmltopdf*&#39;</span><span class="p">,</span>
+          <span class="s2">&quot;wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-</span><span class="si">#{</span><span class="n">wkhtmltopdf_version</span><span class="si">}</span><span class="s2">-static-</span><span class="si">#{</span><span class="n">arch</span><span class="si">}</span><span class="s2">.tar.bz2&quot;</span><span class="p">,</span>
+          <span class="s1">&#39;tar xvjf wkhtmltopdf-#{wkhtmltopdf_version}-static-#{arch}.tar.bz2&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;mv wkhtmltopdf-amd64 /usr/local/bin/wkhtmltopdf&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;chmod +x /usr/local/bin/wkhtmltopdf&#39;</span>
+          <span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &amp;&amp; &#39;</span><span class="p">),</span>
+        <span class="ss">:onlyif</span> <span class="o">=&gt;</span> <span class="o">[</span> 
+          <span class="s1">&#39;test ! -f /usr/local/bin/wkhtmltopdf&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;test ! -x /usr/local/bin/wkhtmltopdf&#39;</span>
+          <span class="s2">&quot;test `wkhtmltopdf --version | grep wkhtmltopdf | cut -d &#39; &#39; -f 4` != &#39;</span><span class="si">#{</span><span class="n">wkhtmltopdf_version</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+          <span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &amp;&amp; &#39;</span><span class="p">),</span>
+        <span class="ss">:require</span> <span class="o">=&gt;</span> <span class="n">wkhtmltopdf_dependencies</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">pkg</span><span class="o">|</span> <span class="n">package</span><span class="p">(</span><span class="n">pkg</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">end</span>
+
+  <span class="k">end</span>
+<span class="k">end</span></pre></div>
       </td>
     </tr>
   </table>
