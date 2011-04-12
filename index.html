@@ -171,7 +171,7 @@ so we want to install it.</p>
           <span class="s1">&#39;rm -f wkhtmltopdf*&#39;</span><span class="p">,</span>
           <span class="s2">&quot;wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-</span><span class="si">#{</span><span class="n">wkhtmltopdf_version</span><span class="si">}</span><span class="s2">-static-</span><span class="si">#{</span><span class="n">arch</span><span class="si">}</span><span class="s2">.tar.bz2&quot;</span><span class="p">,</span>
           <span class="s2">&quot;tar xvjf wkhtmltopdf-</span><span class="si">#{</span><span class="n">wkhtmltopdf_version</span><span class="si">}</span><span class="s2">-static-</span><span class="si">#{</span><span class="n">arch</span><span class="si">}</span><span class="s2">.tar.bz2&quot;</span><span class="p">,</span>
-          <span class="s1">&#39;mv wkhtmltopdf-amd64 /usr/local/bin/wkhtmltopdf&#39;</span><span class="p">,</span>
+          <span class="s2">&quot;mv wkhtmltopdf-</span><span class="si">#{</span><span class="n">arch</span><span class="si">}</span><span class="s2"> /usr/local/bin/wkhtmltopdf&quot;</span><span class="p">,</span>
           <span class="s1">&#39;chmod +x /usr/local/bin/wkhtmltopdf&#39;</span>
           <span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &amp;&amp; &#39;</span><span class="p">),</span>
         <span class="ss">:onlyif</span> <span class="o">=&gt;</span> <span class="o">[</span> 
