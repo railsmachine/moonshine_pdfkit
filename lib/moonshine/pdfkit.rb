@@ -83,7 +83,7 @@ module Moonshine
           ].join(' && '),
         :onlyif => [ 
           'test ! -f /usr/local/bin/wkhtmltopdf',
-          'test ! -x /usr/local/bin/wkhtmltopdf'
+          'test ! -x /usr/local/bin/wkhtmltopdf',
           "test `wkhtmltopdf --version | grep wkhtmltopdf | cut -d ' ' -f 4` != '#{wkhtmltopdf_version}'"
           ].join(' && '),
         :require => wkhtmltopdf_dependencies.map { |pkg| package(pkg) }
