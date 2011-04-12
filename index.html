@@ -176,7 +176,7 @@ so we want to install it.</p>
           <span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &amp;&amp; &#39;</span><span class="p">),</span>
         <span class="ss">:onlyif</span> <span class="o">=&gt;</span> <span class="o">[</span> 
           <span class="s1">&#39;test ! -f /usr/local/bin/wkhtmltopdf&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;test ! -x /usr/local/bin/wkhtmltopdf&#39;</span>
+          <span class="s1">&#39;test ! -x /usr/local/bin/wkhtmltopdf&#39;</span><span class="p">,</span>
           <span class="s2">&quot;test `wkhtmltopdf --version | grep wkhtmltopdf | cut -d &#39; &#39; -f 4` != &#39;</span><span class="si">#{</span><span class="n">wkhtmltopdf_version</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
           <span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39; &amp;&amp; &#39;</span><span class="p">),</span>
         <span class="ss">:require</span> <span class="o">=&gt;</span> <span class="n">wkhtmltopdf_dependencies</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">pkg</span><span class="o">|</span> <span class="n">package</span><span class="p">(</span><span class="n">pkg</span><span class="p">)</span> <span class="p">}</span>
