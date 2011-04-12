@@ -94,7 +94,9 @@ We&rsquo;ll also need to configure some sane defaults for versions of the librar
 the user specified, or the default version</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>      <span class="n">gem</span> <span class="s1">&#39;pdfkit&#39;</span><span class="p">,</span> <span class="ss">:ensure</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:version</span><span class="o">]</span> <span class="o">||</span> <span class="n">configuration</span><span class="o">[</span><span class="ss">:pdfkit</span><span class="o">][</span><span class="ss">:version</span><span class="o">]</span><span class="p">)</span></pre></div>
+        <div class='highlight'><pre>      <span class="n">gem</span> <span class="s1">&#39;pdfkit&#39;</span><span class="p">,</span>
+        <span class="ss">:ensure</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:version</span><span class="o">]</span> <span class="o">||</span> <span class="n">configuration</span><span class="o">[</span><span class="ss">:pdfkit</span><span class="o">][</span><span class="ss">:version</span><span class="o">]</span><span class="p">),</span>
+        <span class="ss">:require</span> <span class="o">=&gt;</span> <span class="nb">exec</span><span class="p">(</span><span class="s1">&#39;install_wkhtmltopdf&#39;</span><span class="p">)</span></pre></div>
       </td>
     </tr>
     <tr id='section-7'>
