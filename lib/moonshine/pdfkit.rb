@@ -35,6 +35,11 @@ module Moonshine
         :ensure => (options[:version] || configuration[:pdfkit][:version]),
         :require => exec('install_wkhtmltopdf')
 
+      recipe :wkhtmltopdf
+    end
+
+    def wkhtmltopdf(options = {})
+
       # [WKHTMLToPDF][wk] is required for [PDFKit][pk] to work.
       # In order to install [WKHTMLToPDFKit][wk], we ensure we have met
       # its dependencies.
