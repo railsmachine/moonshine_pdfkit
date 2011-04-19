@@ -77,22 +77,31 @@ module Moonshine
       # * Copies the pre-compiled binaries into place
       # * Ensures the binaries are executable
 
-      wkhtmltopdf_version = (options[:version] || configuration[:wkhtmltopdf][:version])
+      configured_version = (options[:version] || configuration[:wkhtmltopdf][:version])
+
+      # Some versions / architecture combinations return the incorrect version from `wkhtmltopdf --version`,
+      # so we have to work around that. This has happened a few times in the release history, so this may need
+      # to be updated in the future if it happens again
+      wkhtmltopdf_version_returns = if arch == 'amd64' && configured_version == '0.9.9'
+                                       '0.9.6'
+                                     else
+                                       configured_version
+                                     end
 
       exec 'install_wkhtmltopdf',
         :command => [ 
           'cd /tmp',
           'rm -f wkhtmltopdf*',
-          "wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-#{wkhtmltopdf_version}-static-#{arch}.tar.bz2",
-          "tar xvjf wkhtmltopdf-#{wkhtmltopdf_version}-static-#{arch}.tar.bz2",
+          "wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-#{configured_version}-static-#{arch}.tar.bz2",
+          "tar xvjf wkhtmltopdf-#{configured_version}-static-#{arch}.tar.bz2",
           "mv wkhtmltopdf-#{arch} /usr/local/bin/wkhtmltopdf",
           'chmod +x /usr/local/bin/wkhtmltopdf'
           ].join(' && '),
-        :onlyif => [ 
-          'test ! -f /usr/local/bin/wkhtmltopdf',
+        :onlyif => [
           'test ! -x /usr/local/bin/wkhtmltopdf',
-          "test `wkhtmltopdf --version | grep wkhtmltopdf | cut -d ' ' -f 4` != '#{wkhtmltopdf_version}'"
-          ].join(' && '),
+          'test "$(which wkhtmltopdf)" != "/usr/local/bin/wkhtmltopdf"',
+          %Q{test "$(/usr/local/bin/wkhtmltopdf --version 2>/dev/null | grep wkhtmltopdf | cut -d ' ' -f 4)" != '#{wkhtmltopdf_version_returns}'}
+        ].join(' && '),
         :require => wkhtmltopdf_dependencies.map { |pkg| package(pkg) }
     end
 
