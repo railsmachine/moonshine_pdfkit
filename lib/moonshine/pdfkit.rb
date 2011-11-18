@@ -90,7 +90,6 @@ module Moonshine
 
       exec 'install_wkhtmltopdf',
         :command => [ 
-          'cd /tmp',
           'rm -f wkhtmltopdf*',
           "wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-#{configured_version}-static-#{arch}.tar.bz2",
           "tar xvjf wkhtmltopdf-#{configured_version}-static-#{arch}.tar.bz2",
@@ -102,6 +101,7 @@ module Moonshine
           'test "$(which wkhtmltopdf)" != "/usr/local/bin/wkhtmltopdf"',
           %Q{test "$(/usr/local/bin/wkhtmltopdf --version 2>/dev/null | grep wkhtmltopdf | cut -d ' ' -f 4)" != '#{wkhtmltopdf_version_returns}'}
         ].join(' && '),
+        :cwd => '/tmp',
         :require => wkhtmltopdf_dependencies.map { |pkg| package(pkg) }
     end
 
