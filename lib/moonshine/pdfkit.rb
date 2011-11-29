@@ -51,7 +51,7 @@ module Moonshine
       # [WKHTMLToPDF][wk] provides different binaries depending on the arch, so
       # we use Facter to determine what arch the server is.
       arch = case Facter.architecture
-             when 'x86_64'
+             when 'x86_64', 'amd64'
                'amd64'
              else
                'i386'
