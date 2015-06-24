@@ -50,7 +50,7 @@ module Moonshine
 
       # [WKHTMLToPDF][wk] provides different binaries depending on the arch, so
       # we use Facter to determine what arch the server is.
-      arch = case Facter.architecture
+      arch = case Facter.value(:architecture)
              when 'x86_64', 'amd64'
                'amd64'
              else
@@ -70,7 +70,7 @@ module Moonshine
       # so we want to install it.
       #
       # The installation process:
-      # 
+      #
       # * Navigates to the /tmp directory
       # * Cleans up any old tarballs
       # * Downloads [WKHTMLToPDF][wk]
@@ -89,7 +89,7 @@ module Moonshine
                                      end
 
       exec 'install_wkhtmltopdf',
-        :command => [ 
+        :command => [
           'rm -f wkhtmltopdf*',
           "wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-#{configured_version}-static-#{arch}.tar.bz2",
           "tar xvjf wkhtmltopdf-#{configured_version}-static-#{arch}.tar.bz2",
